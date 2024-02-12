@@ -1,5 +1,6 @@
-# terraform-terraform-template
-Template repository for terraform modules. Good for any cloud and any provider.
+# terraform-aws-ssm-parameter-lookup
+
+This module will search for an SSM parameter and return its value if found, or an empty string otherwise.
 
 [![tflint](https://github.com/rhythmictech/terraform-terraform-template/workflows/tflint/badge.svg?branch=master&event=push)](https://github.com/rhythmictech/terraform-terraform-template/actions?query=workflow%3Atflint+event%3Apush+branch%3Amaster)
 [![tfsec](https://github.com/rhythmictech/terraform-terraform-template/workflows/tfsec/badge.svg?branch=master&event=push)](https://github.com/rhythmictech/terraform-terraform-template/actions?query=workflow%3Atfsec+event%3Apush+branch%3Amaster)
@@ -8,16 +9,9 @@ Template repository for terraform modules. Good for any cloud and any provider.
 [![pre-commit-check](https://github.com/rhythmictech/terraform-terraform-template/workflows/pre-commit-check/badge.svg?branch=master&event=push)](https://github.com/rhythmictech/terraform-terraform-template/actions?query=workflow%3Apre-commit-check+event%3Apush+branch%3Amaster)
 <a href="https://twitter.com/intent/follow?screen_name=RhythmicTech"><img src="https://img.shields.io/twitter/follow/RhythmicTech?style=social&logo=twitter" alt="follow on Twitter"></a>
 
-## Example
-Here's what using the module will look like
-```hcl
-module "example" {
-  source = "rhythmictech/terraform-mycloud-mymodule
-}
-```
-
 ## About
-A bit about this module
+
+Normally looking up a single parameter using the `aws_ssm_parameter` data source will fail if the parameter doesn't exist. Using the `aws_ssm_parameter_by_path` data source will not, but this is cumbersome in repetition. This module handles the cumbersome work for you and returns the value (optionally as insecure) or an empty string if not found.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -26,30 +20,33 @@ No requirements.
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_tags"></a> [tags](#module\_tags) | rhythmictech/tags/terraform | ~> 1.1.0 |
+No modules.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [aws_ssm_parameters_by_path.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameters_by_path) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_name"></a> [name](#input\_name) | Moniker to apply to all resources in the module | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | User-Defined tags | `map(string)` | `{}` | no |
+| <a name="input_return_insecure"></a> [return\_insecure](#input\_return\_insecure) | Return an insecure value of the parameter | `bool` | `false` | no |
+| <a name="input_ssm_parameter"></a> [ssm\_parameter](#input\_ssm\_parameter) | Full path of the SSM parameter to return | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_tags_module"></a> [tags\_module](#output\_tags\_module) | Tags Module in it's entirety |
+| <a name="output_insecure_value"></a> [insecure\_value](#output\_insecure\_value) | n/a |
+| <a name="output_value"></a> [value](#output\_value) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Getting Started

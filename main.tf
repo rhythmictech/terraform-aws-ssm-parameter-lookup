@@ -1,16 +1,8 @@
-
-module "tags" {
-  source  = "rhythmictech/tags/terraform"
-  version = "~> 1.1.0"
-
-  enforce_case = "UPPER"
-  names        = [var.name]
-  tags         = var.tags
+data "aws_ssm_parameters_by_path" "this" {
+  path = local.basepath
 }
 
 locals {
-  # tflint-ignore: terraform_unused_declarations
-  name = module.tags.name
-  # tflint-ignore: terraform_unused_declarations
-  tags = module.tags.tags_no_name
+  basepath = regex("^(.*/)([^/]*)$", var.ssm_parameter)[0]
+  found    = (length(data.aws_ssm_parameters_by_path.this.names) > 0 && contains(data.aws_ssm_parameters_by_path.this.names, var.ssm_parameter))
 }

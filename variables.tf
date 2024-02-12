@@ -1,11 +1,15 @@
-
-variable "name" {
-  description = "Moniker to apply to all resources in the module"
-  type        = string
+variable "return_insecure" {
+  default     = false
+  description = "Return an insecure value of the parameter"
+  type        = bool
 }
 
-variable "tags" {
-  default     = {}
-  description = "User-Defined tags"
-  type        = map(string)
+variable "ssm_parameter" {
+  description = "Full path of the SSM parameter to return"
+  type        = string
+
+  validation {
+    condition     = can(regex("^(/.*/)([^/]+)$", var.ssm_parameter))
+    error_message = "ssm_parameter must be full path of parameter, e.g. '/my/custom/parameter'"
+  }
 }

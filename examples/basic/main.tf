@@ -1,10 +1,11 @@
-
-module "example" {
+module "ami_id" {
   source = "../.."
 
-  name = "test"
+  return_insecure = true
+  ssm_parameter   = "/org/team/system/ami/latest"
+
 }
 
-output "example" {
-  value = module.example
+output "my_ami_id" {
+  value = module.ami_id.insecure_value
 }
